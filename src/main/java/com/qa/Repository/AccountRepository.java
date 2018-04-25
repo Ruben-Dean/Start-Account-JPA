@@ -2,20 +2,26 @@ package com.qa.Repository;
 
 import com.qa.domain.Account;
 
+
+
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+import java.util.Collection;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.awt.print.Book;
 import java.util.List;
 import com.qa.util.JSONUtil;
 
-@Transactional
+@Transactional(Transactional.TxType.SUPPORTS)
 public class AccountRepository {
 
     @PersistenceContext(unitName = "primary")
     private EntityManager em;
+
+    @Inject
+    private JSONUtil util;
 
     public Account find(Long id){
         return em.find(Account.class, id);
@@ -39,14 +45,19 @@ public class AccountRepository {
     }
 
     public List<Account> findall(){
-        TypedQuery<Account> query = em.createQuery("SELECT a from Account a order by a.firstName", Account.class);
-        return query.getResultList();
+        Query query = em.createQuery("SELECT a from Account a order by a.firstName", Account.class);
+        Collection<Account> accounts = (Collection<Account>) query.getResultList();
+        return util.getJSONForObject(accounts);
     }
 
     public void setEm(EntityManager em){
         this.em = em;
     }
 
+
+    public void setUtil(JSONUtil util) {
+        this.util = util;
+    }
 
 
 

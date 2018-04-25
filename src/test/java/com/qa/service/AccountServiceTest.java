@@ -1,5 +1,6 @@
 package com.qa.service;
 
+import com.qa.Repository.AccountMapRepository;
 import com.qa.Repository.AccountRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,7 +29,7 @@ public class AccountServiceTest {
 
 	@Before
 	public void init() {
-		service = new AccountService();
+		service = new AccountMapRepository();
 		joeBloggs = new Account("Joe", "Bloggs", "1234");
 		janeBloggs = new Account("Jane", "Bloggs", "1234");
 		util = new JSONUtil();
