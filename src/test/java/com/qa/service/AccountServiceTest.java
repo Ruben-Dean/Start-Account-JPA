@@ -1,15 +1,13 @@
 package com.qa.service;
 
-import com.qa.Repository.AccountMapRepository;
 import com.qa.Repository.AccountRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+
 import static org.junit.Assert.*;
 
 import com.qa.domain.Account;
@@ -29,10 +27,11 @@ public class AccountServiceTest {
 
 	@Before
 	public void init() {
-		service = new AccountMapRepository();
+		service = new AccountService();
 		joeBloggs = new Account("Joe", "Bloggs", "1234");
 		janeBloggs = new Account("Jane", "Bloggs", "1234");
 		util = new JSONUtil();
+		repo.setUtil(util);
 
 	}
 
