@@ -1,11 +1,23 @@
 package com.qa.service;
 
+import com.qa.Repository.AccountRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import static org.junit.Assert.*;
 
 import com.qa.domain.Account;
 import com.qa.util.JSONUtil;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountServiceTest {
 
@@ -20,6 +32,7 @@ public class AccountServiceTest {
 		joeBloggs = new Account("Joe", "Bloggs", "1234");
 		janeBloggs = new Account("Jane", "Bloggs", "1234");
 		util = new JSONUtil();
+
 	}
 
 	@Test
@@ -57,5 +70,28 @@ public class AccountServiceTest {
 		service.addAccountFromMap(joeGordon);
 		Assert.assertEquals(service.getNumberOfAccountWithFirstName("Joe"), 2);
 	}
+
+
+    @InjectMocks
+    private AccountRepository repo;
+
+	@Mock
+    private EntityManager em;
+
+	@Mock
+    private Query query;
+
+	@Test
+    public void findallTest(){
+		repo.setEm(em);
+	    Mockito.when(em.createQuery(Mockito.anyString())).thenReturn(query);
+        List<Account> accounts = new ArrayList<Account>();
+        Account acc = new Account("Ruben", "Caldeira", "1234");
+        Mockito.when(query.getResultList()).thenReturn(accounts);
+        assertEquals("MOCK_DATA_ARRAY", repo.findall());
+
+    }
+
+
 
 }

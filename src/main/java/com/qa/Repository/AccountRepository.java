@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.awt.print.Book;
 import java.util.List;
+import com.qa.util.JSONUtil;
 
 @Transactional
 public class AccountRepository {
@@ -41,6 +42,12 @@ public class AccountRepository {
         TypedQuery<Account> query = em.createQuery("SELECT a from Account a order by a.firstName", Account.class);
         return query.getResultList();
     }
+
+    public void setEm(EntityManager em){
+        this.em = em;
+    }
+
+
 
 
 }
